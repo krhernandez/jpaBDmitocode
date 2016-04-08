@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VentaCreateDlg" widgetVar="VentaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateVentaTitle}">
+            <h:form id="VentaCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ventaController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateVentaLabel_codigo}" for="codigo" />
+                        <p:inputText id="codigo" value="#{ventaController.selected.codigo}" title="#{bundle.CreateVentaTitle_codigo}" required="true" requiredMessage="#{bundle.CreateVentaRequiredMessage_codigo}"/>
+                        <p:outputLabel value="#{bundle.CreateVentaLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy HH:mm:ss" value="#{ventaController.selected.fecha}" title="#{bundle.EditVentaTitle_fecha}" required="true" requiredMessage="#{bundle.EditVentaRequiredMessage_fecha}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateVentaLabel_monto}" for="monto" />
+                        <p:inputText id="monto" value="#{ventaController.selected.monto}" title="#{bundle.CreateVentaTitle_monto}" required="true" requiredMessage="#{bundle.CreateVentaRequiredMessage_monto}"/>
+                        <p:outputLabel value="#{bundle.CreateVentaLabel_codPersona}" for="codPersona" />
+                        <p:selectOneMenu id="codPersona" value="#{ventaController.selected.codPersona}" required="true" requiredMessage="#{bundle.EditVentaRequiredMessage_codPersona}">
+                            <f:selectItems value="#{personaController.itemsAvailableSelectOne}"
+                                           var="codPersonaItem"
+                                           itemValue="#{codPersonaItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ventaController.create}" value="#{bundle.Save}" update="display,:VentaListForm:datalist,:growl" oncomplete="handleSubmit(args,'VentaCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="VentaCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
